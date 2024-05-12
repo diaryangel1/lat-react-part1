@@ -43,19 +43,11 @@ function App() {
           <h1 className='text-3xl font-bold mb-2 text-blue-600'>Login</h1>
           <p className='text-gray-600 font-medium mb-5'>Welcome to the jungle, syalalalala niiid</p>
           <form action="">
-            {/* email */}
-            <div className='mb-6'>
-              <label 
-                htmlFor="email" 
-                className='block mb-2 text-sm font-bold text-gray-900'>
-                Email
-              </label>
-              <input 
-                type="text" 
+            {/* email sudah di slice ke folder input */}
+            {/* <div className='mb-6'>
+             
               
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-pink-500 block w-full px-3 placeholder:opacity-45" 
-                placeholder="Email@mil.com" required/>
-            </div>
+            </div> */}
             {/* password */}
             <div className='mb-6'>
               <label 
