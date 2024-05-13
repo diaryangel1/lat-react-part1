@@ -1,17 +1,24 @@
-import React from 'react'
 import Label from './Label'
-import Input from './input'
+import Input from './Input'
 
-const inputForm = (props) => {
-    const {tittle} = props
+const InputForm = (props) => {
+    const {label, name, type, placeholder} = props
   return (
     <div className='mb-6'>
-             <Label>{tittle}</Label>
-             <Input type={type}/>
+             <Label 
+               htmlFor={name}>
+              {label}
+              </Label>
+              
+             <Input 
+              name={name} 
+              type={type}
+              placeholder={placeholder}
+             />
              
               
             </div>
   )
 }
 
-export default inputForm
+export default InputForm
