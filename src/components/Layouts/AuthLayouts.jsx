@@ -1,12 +1,45 @@
+import { Link } from "react-router-dom";
 
 const AuthLayouts = (props) => {
-  const {children, title} = props
+  const {children, title, type} = props;
   return (
+  <div className='flex justify-center min-h-screen items-center'>
     <div className='w-full max-w-xs'>
           <h1 className='text-3xl font-bold mb-2 text-blue-600'>{title}</h1>
           <p className='text-gray-600 font-medium mb-5'>Welcome to the jungle, syalalalala niiid</p>
 
           {children}
+          {/* 14/05/2024  CONDITIONAL RENDERING*/}
+        {/* membuat pesan untuk user sign up dan sign in */}
+          <p className="text-center text-sm mt-5">
+            {type === "login" 
+            ? "Don't have an account? " 
+            : "Have an account? "}
+
+
+            {/* membuat link untuk user sign up dan sign in gunakan ternary operator */}
+            {type === "login" && 
+            (
+              <Link 
+                    to="/register" 
+                    className="underline font-bold text-blue-600">
+                    Sign up
+                </Link>
+            )}
+
+            {type === "register" &&
+            (
+            <Link 
+                  to="/login" 
+                  className="underline font-bold text-blue-600">
+                  Sign in
+              </Link>
+            )}
+          </p>
+
+
+
+
           {/* <FormLogin/> */}
           {/* <form action=""> */}
             {/* email sudah di slice ke folder input */}
@@ -49,6 +82,7 @@ const AuthLayouts = (props) => {
             {/* <Button classname="bg-cyan-700 w-full">Login</Button>
           </form> */}
         </div>
+  </div>
   )
 }
 

@@ -8,6 +8,8 @@ const Input = (props) => {
                 type={type} 
                 placeholder={placeholder} 
                 name={name}
+                id={name}
+                // id name agar saat judul di klik maka kolom ikut ke klik
                 />
   )
 }
