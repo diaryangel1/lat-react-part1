@@ -1,9 +1,23 @@
 import Button from "../Elements/Button"
 import InputForm from "../Elements/Input"
 
+// membuat event handler 15.05 ada di folder button index
 const FormLogin = () => {
+  const handleLogin = (event) => {
+    event.preventDefault()
+    // untuk mengambil email
+    console.log(event.target.email.value)
+    // untuk mengambil password
+    console.log(event.target.password.value)
+    console.log("login")
+    // belajar menyimpan data login ke local storage
+    localStorage.setItem('email', event.target.email.value)
+    localStorage.setItem('password', event.target.password.value)
+    // belajar redirect ke halaman products
+    window.location.href = '/products' 
+  }
   return (
-    <form action="">
+    <form onSubmit={handleLogin}>
             {/* email sudah di slice ke folder input */}
             {/* <div className='mb-6'>
              
@@ -23,7 +37,7 @@ const FormLogin = () => {
             <InputForm 
             label="Password" 
             name="password" 
-            type="email" 
+            type="Password" 
             placeholder="******"/>
 
 
@@ -41,7 +55,7 @@ const FormLogin = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-pink-500 block w-full px-3 placeholder:opacity-45" 
                 placeholder="******" required/>
             </div> */}
-            <Button classname="bg-cyan-700 w-full">Login</Button>
+            <Button classname="bg-cyan-700 w-full" type="submit">Login</Button>
           </form>
   )
 }
