@@ -49,7 +49,7 @@ const Body = (props) => {
 
 
 const Footer = (props) => {
-    // 16.05.2024 up8
+    // 16.05.2024 up8 membuat fungsi onclick berjalan dengan mengambil fungsi handleAddToCart dan menangkap id
     const {price, handleAddToCart,id} = props
     return (
         <div className="flex items-center justify-between px-5 pb-5">

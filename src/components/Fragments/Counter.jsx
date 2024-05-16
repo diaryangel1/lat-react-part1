@@ -7,6 +7,22 @@ class Counter extends React.Component {
         this.state = {
             count: 0
         }
+        console.log("constructor")
+    }
+    // 16.5 UP12 lifecycle BELAJAR component did mount 16.5.2024
+    componentDidMount(){
+        this.setState({count: 1})
+        // komponen didmount akan menimpa constructor up12
+        console.log("componentdidmount")
+    }
+    // 16.5 UP13 belajar component did update 16.5.2024
+    // mengecek perubahan state dengan prevProps dan prevState
+    componentDidUpdate(prevProps, prevState){
+        console.log("didupdate")
+        // up14 menambahkan kondisi jiga angka samadengan2 10 maka balikan ke 0
+        if(this.state.count === 10) {
+            this.setState({ count:0})
+        }
     }
     render(){
         return(

@@ -105,7 +105,7 @@ const ProductsPage = () => {
               </li>
             ))}
           </ul> */}
-          {/* 16.05 up9 menampilkan table product, price, quantity, total */}
+          {/* 16.05 up9 menampilkan/menangkap table product, price, quantity, total dan membuat maping*/}
           <table  className="text-left table-auto border-separate border-spacing-x-5 text-bold">
             <thead>
               <tr>
@@ -125,6 +125,8 @@ const ProductsPage = () => {
                     <td>${product.price}</td>
                     <td>{item.qty}</td>
                     <td>${product.price * item.qty}</td>
+                    {/* membuat total belanja dari cart */}
+                    
                   </tr>
                 )
                 } )}
