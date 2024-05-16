@@ -13,7 +13,8 @@ const Button = (props) => {
       <button 
           className={`h-10 px-6 rounded-md ${variant} ${classname}  text-white`} 
           type={type}
-          onClick={() => onClick()}
+          // 16.05 up7
+          onClick={onClick}
         >
           {/* 2: asalnya ${props.variant} jadi ${variant} saja karena props sudah dipakai di const */}
          {children}

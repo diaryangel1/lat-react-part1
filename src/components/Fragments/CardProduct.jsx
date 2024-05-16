@@ -3,7 +3,7 @@ import Button from "../Elements/Button"
 const CardProduct = (props) => {
     const {children} = props
     return (
-        <div className="w-full max-w-sm bg-pink-600 border rounded-lg border-gray-700 shadow mx-2 flex flex-col justify-between">
+        <div className="w-full max-w-xs bg-pink-600 border rounded-lg border-gray-700 shadow mx-3 flex flex-col justify-between">
             
 
         {/* keterangan dan text nya */}
@@ -49,11 +49,14 @@ const Body = (props) => {
 
 
 const Footer = (props) => {
-    const {price} = props
+    // 16.05.2024 up8
+    const {price, handleAddToCart,id} = props
     return (
         <div className="flex items-center justify-between px-5 pb-5">
-            <span className="text-3xl font-bold text-white">{price}</span>
-            <Button className="bg-blue-700">Add to cart</Button>
+            <span className="text-3xl font-bold text-white">$ {price}</span>
+            <Button 
+                onClick={() => handleAddToCart(id)} 
+                className="bg-blue-700">Add to cart</Button>
         </div>
     )
 
