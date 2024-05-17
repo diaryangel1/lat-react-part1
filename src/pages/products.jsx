@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react"
+import { Fragment, useState, useEffect, useRef } from "react"
 import CardProduct from "../components/Fragments/CardProduct"
 import Counter from "../components/Fragments/Counter"
 
@@ -42,13 +42,40 @@ const email = localStorage.getItem('email')
 
 const ProductsPage = () => {
   // 16.05 up3 useState membuat hook dengan setCart "menangkap pesanan agar masuk ke cart"
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      qty: 1,
-    }
+  // const [cart, setCart] = useState([
+    // {
+    //   id: 1,
+    //   qty: 1,
+    // }
+  // ])
+//  17.05.2024 up15 LATIHAN MEMBUAT USE EFFECT > KOMPONEN DID MOUNT DAN UPDATE DI STATLESS COMPONENT
 
-  ])
+//up16 memanipulasi untuk membuat total price
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0)
+  // up18 memakai useEffect yang tujuannya untuk menampilkan penjumlahan total harga barang dan tampilan total harga di kolom raw total price
+  useEffect(() => {
+    // lanjutan up 19 komponen didmount nya di ubah buat parsing kalau misal ada, kalau tidak ada set array kosong
+    setCart (JSON.parse(localStorage.getItem('cart')) || [])
+  },[])
+
+    // up19 membuat dependencies cart dengan useEffect pakai cart.reduce pakai const sum
+  useEffect(() => {
+    // up20 pake fungsi if untuk memastikan data ada
+    if(cart.length > 0) {
+      const sum = cart.reduce((acc, item) => {
+        // mencari product dalam cart dengan id lalu bisa menjalankan fungsi sum
+        const product = products.find(product => product.id === item.id)
+        return acc + product.price * item.qty
+    }, 0)
+    // 0 mendefinisikan memulai dari index ke berapa
+    setTotalPrice(sum)
+    // up19 bikin semua penyimpanan tersimpan di localstorage 17.05.2024
+    localStorage.setItem('cart', JSON.stringify(cart))
+    }
+    //  terus parsing si setcart diatas
+  }, [cart])
+
   // membuat handleLogout dengan delete yang ada di local storage email dan password 15/05/2024
   const handleLogout = () => {
     localStorage.removeItem('email')
@@ -64,9 +91,19 @@ const ProductsPage = () => {
     } else {
       setCart([...cart, {id, qty: 1}])
     }
-
-    
   }
+
+  // up21 belajar useRef 17.05.2024 membuat display di cart itu none tapi saat di click di cart muncul dan memanupulasi dom
+  const totalPriceRef = useRef(null)
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      totalPriceRef.current.style.display = 'table-row'
+    } else {
+      totalPriceRef.current.style.display = 'none'
+    }
+  }, [cart])
+
   return (
     // membuat navbar welcome setelah login 15/05/2024
     <Fragment>
@@ -95,7 +132,7 @@ const ProductsPage = () => {
            ))}
         </div>
         {/* 16.05 membuat cart up2 */}
-        <div className="w-1/3 border bg-slate-400 h-full sticky top-0 rounded-lg">
+        <div className="w-1/3 border bg-slate-400 h-full sticky top-0 rounded-lg shadow-md mr-4">
           <h1 className="text-3xl font-bold text-red-700 ml-5 mb-2">Cart</h1>
           {/* 16.05 up4 menampilkan list dari state cart */}
           {/* <ul>
@@ -130,14 +167,21 @@ const ProductsPage = () => {
                   </tr>
                 )
                 } )}
+            {/* up17 membuat tabel row total price*/}
+            
+            <tr className="font-bold text-xl text-red-700" ref={totalPriceRef}>
+              {/* ref={totalPriceRef} adalah bagian latihan dari up 21 agar bisa memunculkan item total harga saat tombol add cart di klik */}
+              <td colSpan={3}>Total Price</td>
+              <td>${totalPrice}</td>
+            </tr>
             </tbody>
           </table>
         </div>     
       </div>
-      <div className="flex justify-center items-center">
+      {/* <div className="flex justify-center items-center">
         <Counter></Counter>
         
-      </div> 
+      </div>  */}
 
       <div className="pb-96"></div>
       

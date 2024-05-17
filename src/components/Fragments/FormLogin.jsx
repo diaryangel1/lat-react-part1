@@ -1,5 +1,6 @@
 import Button from "../Elements/Button"
 import InputForm from "../Elements/Input"
+import { useRef, useEffect } from "react"
 
 // membuat event handler 15.05 ada di folder button index
 const FormLogin = () => {
@@ -16,6 +17,13 @@ const FormLogin = () => {
     // belajar redirect ke halaman products
     window.location.href = '/products' 
   }
+
+  // up22 belajar useRef agar kursor berada otomatis di kolom email ketika berada di page login
+  const emailRef = useRef(null)
+  // up24 menggunakan didmount dengan useEffect
+  useEffect(() => {
+      emailRef.current.focus();
+  }, []);
   return (
     <form onSubmit={handleLogin}>
             {/* email sudah di slice ke folder input */}
@@ -29,7 +37,10 @@ const FormLogin = () => {
             label="Email" 
             name="email" 
             type="email" 
-            placeholder="example@ex.com"/>
+            placeholder="example@ex.com"
+            // up25 memasukan ref={emailRef}
+            ref={emailRef}/>
+            
             {/* password */}
             {/* update 4""" memasukan inputform , dari slicing atomic design yang ada di folder input*/}
             

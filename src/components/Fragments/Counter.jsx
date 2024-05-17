@@ -15,7 +15,7 @@ class Counter extends React.Component {
         // komponen didmount akan menimpa constructor up12
         console.log("componentdidmount")
     }
-    // 16.5 UP13 belajar component did update 16.5.2024
+    // 16.5 UP13 belajar component did update 16.5.2024 di class componen dan state componen
     // mengecek perubahan state dengan prevProps dan prevState
     componentDidUpdate(prevProps, prevState){
         console.log("didupdate")
