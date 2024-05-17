@@ -1,6 +1,7 @@
 import { Fragment, useState, useEffect, useRef } from "react"
 import CardProduct from "../components/Fragments/CardProduct"
 import Counter from "../components/Fragments/Counter"
+import { getProducts } from "../services/product.service"
 
 
 // BELAJAR RENDERING LIST 15/05/2024
@@ -53,12 +54,20 @@ const ProductsPage = () => {
 //up16 memanipulasi untuk membuat total price
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0)
+// up30 membuat cons setproduct dengan usestate
+  const [products, setProducts] = useState([])
   // up18 memakai useEffect yang tujuannya untuk menampilkan penjumlahan total harga barang dan tampilan total harga di kolom raw total price
   useEffect(() => {
     // lanjutan up 19 komponen didmount nya di ubah buat parsing kalau misal ada, kalau tidak ada set array kosong
     setCart (JSON.parse(localStorage.getItem('cart')) || [])
   },[])
 
+  // up28 menggunakan useEffect getproducts terhadap API axios dan membuat function call back untuk menangkap data
+  useEffect(() => {
+    getProducts((data) =>{
+      console.log(data)
+    })
+  })
     // up19 membuat dependencies cart dengan useEffect pakai cart.reduce pakai const sum
   useEffect(() => {
     // up20 pake fungsi if untuk memastikan data ada
