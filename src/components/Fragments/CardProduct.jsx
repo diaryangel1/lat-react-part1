@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Button from "../Elements/Button"
 
 const CardProduct = (props) => {
@@ -20,15 +21,16 @@ const CardProduct = (props) => {
 
 
 const Header = (props) => {
-    const {image} = props
+    const {image, id} = props
     return (
-        <a href="#">
+        // up65 menjadikan image ketika di klik lalu pindah ke halaman detail product sesuai id dan menambahkan link di href
+        <Link to={`/product/${id}`}>
                 <img 
                 // up39 merapihkan tampilan gambar product yang berbeda beda
                     className="p-8 rounded-t-lg w-full h-60 object-cover" 
                     src={image} 
                     alt="product" />
-            </a>
+            </Link>
     )
 }
 const Body = (props) => {

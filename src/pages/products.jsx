@@ -160,8 +160,9 @@ const ProductsPage = () => {
         <div className="w-2/3 flex flex-wrap gap-5 justify-center">
           {/* up32 menghendel product length >0 kita maping kalau datanya ada*/}
             {products.length > 0 && products.map((product) => (
-              <CardProduct key={product.id}>   
-                  <CardProduct.Header image={product.image}></CardProduct.Header>
+              <CardProduct key={product.id}>  
+               {/*up66 menambahkan id product di dalam header */}
+                  <CardProduct.Header image={product.image} id={product.id}></CardProduct.Header>
                   {/* up36 karena product dalam API itu bukan name melainkan tittle maka product.name harus diubah dan juga di cart */}
                   <CardProduct.Body name={product.title}>
                     {product.description}
