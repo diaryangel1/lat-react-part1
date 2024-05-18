@@ -1,45 +1,48 @@
 import { Fragment, useState, useEffect, useRef } from "react"
 import CardProduct from "../components/Fragments/CardProduct"
-import Counter from "../components/Fragments/Counter"
 import { getProducts } from "../services/product.service"
+import { getUsername } from "../services/auth.services"
+import { useLogin } from "../hooks/useLogin"
 
 
 // BELAJAR RENDERING LIST 15/05/2024
 
 // membuat products array 15/05/2024
-const products = [
-  {
-    id: 1,
-    name: "Baju gokil",
-    price: 100,
-    image: "/images/bajugaul.jpg",
-    description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse voluptatibus praesentium quos officiis! Harum, ipsa non. Ipsam ipsum eligendi aliquid. Officia, ratione?`
-  },
-  {
-    id: 2,
-    name: "Kolor Bekas Ketua Ormas",
-    price: 500,
-    image: "/images/kolorgaul.jpg",
-    description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse`
-  },
-  {
-    id: 3,
-    name: "sendal tempur",
-    price: 100,
-    image: "/images/sandaltempur.jpg",
-    description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse`
-  },
-  {
-    id: 4,
-    name: "Singlet Madao",
-    price: 400,
-    image: "/images/singletmadao.jpg",
-    description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse`
-  },
-]
+// up31 mengkomen dulu/ hapus data array latihan local storage 17.05.2024 rumah
+// const products = [
+//   {
+//     id: 1,
+//     name: "Baju gokil",
+//     price: 100,
+//     image: "/images/bajugaul.jpg",
+//     description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse voluptatibus praesentium quos officiis! Harum, ipsa non. Ipsam ipsum eligendi aliquid. Officia, ratione?`
+//   },
+//   {
+//     id: 2,
+//     name: "Kolor Bekas Ketua Ormas",
+//     price: 500,
+//     image: "/images/kolorgaul.jpg",
+//     description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse`
+//   },
+//   {
+//     id: 3,
+//     name: "sendal tempur",
+//     price: 100,
+//     image: "/images/sandaltempur.jpg",
+//     description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse`
+//   },
+//   {
+//     id: 4,
+//     name: "Singlet Madao",
+//     price: 400,
+//     image: "/images/singletmadao.jpg",
+//     description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti possimus aliquid culpa cum optio, suscipit nemo esse`
+//   },
+// ]
 
 // tangkap email dan password dari local storage 15/05/2024
-const email = localStorage.getItem('email')
+// UP49 installasi npm i jwt-decode UNTUK MENDECODE TOKEN DAN MENGGANTI email jadi token
+
 
 const ProductsPage = () => {
   // 16.05 up3 useState membuat hook dengan setCart "menangkap pesanan agar masuk ke cart"
@@ -54,24 +57,46 @@ const ProductsPage = () => {
 //up16 memanipulasi untuk membuat total price
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0)
-// up30 membuat cons setproduct dengan usestate
+// up30 membuat set baru cons setproduct dengan usestate untuk menangkap product
   const [products, setProducts] = useState([])
+  // up53 membuat state baru username
+  // const [username, setUsername] = useState("")
+
+  // up40 mengganti const username jadi memanggil usernam = useLogin
+  const username = useLogin()
+
   // up18 memakai useEffect yang tujuannya untuk menampilkan penjumlahan total harga barang dan tampilan total harga di kolom raw total price
   useEffect(() => {
     // lanjutan up 19 komponen didmount nya di ubah buat parsing kalau misal ada, kalau tidak ada set array kosong
     setCart (JSON.parse(localStorage.getItem('cart')) || [])
   },[])
 
+// up51 memanggil  getusername dan kirimkan token pakai useeffect
+// useEffect(() => {
+//   // up57 memindahkan const token diatas ke useeffect getUsername token "use effect akan melakukan cek keberadaan token atau tidak dengan fungsi if dan else" tujuannya bila token tidak ada maka dialihkan ke page login karena user tidak login.
+//   const token = localStorage.getItem('token')
+//   if(token) {
+//     setUsername(getUsername(token))
+//   } else {
+//     window.location.href = "/login"
+//   }
+  // up54 memberikan setusername
+  // setUsername(getUsername(token))
+// },[])
+
   // up28 menggunakan useEffect getproducts terhadap API axios dan membuat function call back untuk menangkap data
   useEffect(() => {
     getProducts((data) =>{
-      console.log(data)
+      // UP35 MENAMPILKAN DATA DARI API SEBENARNYA
+      setProducts(data)
     })
-  })
+  },[])
     // up19 membuat dependencies cart dengan useEffect pakai cart.reduce pakai const sum
   useEffect(() => {
     // up20 pake fungsi if untuk memastikan data ada
-    if(cart.length > 0) {
+    // up34 membuat hal sama bagian 3 tentang products.length > 0
+    if(products.length > 0 && 
+      cart.length > 0) {
       const sum = cart.reduce((acc, item) => {
         // mencari product dalam cart dengan id lalu bisa menjalankan fungsi sum
         const product = products.find(product => product.id === item.id)
@@ -83,12 +108,15 @@ const ProductsPage = () => {
     localStorage.setItem('cart', JSON.stringify(cart))
     }
     //  terus parsing si setcart diatas
-  }, [cart])
+     // up41 menambahkan dependency products ketika terjadi perubahan pada products harus dipanggil juga
+  }, [cart, products])
 
   // membuat handleLogout dengan delete yang ada di local storage email dan password 15/05/2024
   const handleLogout = () => {
-    localStorage.removeItem('email')
-    localStorage.removeItem('password')
+    // up56 membuat handleLogout token dengan mengganti email dan komentari pasword
+    // localStorage.removeItem('email')
+    // localStorage.removeItem('password')
+    localStorage.removeItem('token')
     window.location.href = '/login'
   }
 
@@ -111,13 +139,18 @@ const ProductsPage = () => {
     } else {
       totalPriceRef.current.style.display = 'none'
     }
+   
   }, [cart])
 
   return (
     // membuat navbar welcome setelah login 15/05/2024
     <Fragment>
       <div className="flex justify-end bg-cyan-700 h-20 text-white text-2xl items-center text-semibold px-10">
-        Welcome {email} 
+        Welcome 
+        {" "}
+        {/* up55 memunculkan username  */}
+        {username}
+        {/* {email}  */}
          {/* memunculkan button logout */}
         <button className="ml-5 bg-slate-500 py-1 px-3 rounded-lg" onClick={handleLogout}>Logout</button>
       </div>
@@ -125,10 +158,12 @@ const ProductsPage = () => {
       <div className="flex justify-center py-5">
         {/* 16.05 USESTATE up1 belajar useState dengan menambahkan cart dan membuat card menjadi flex warp 16.05.2024 */}
         <div className="w-2/3 flex flex-wrap gap-5 justify-center">
-            {products.map((product) => (
+          {/* up32 menghendel product length >0 kita maping kalau datanya ada*/}
+            {products.length > 0 && products.map((product) => (
               <CardProduct key={product.id}>   
                   <CardProduct.Header image={product.image}></CardProduct.Header>
-                  <CardProduct.Body name={product.name}>
+                  {/* up36 karena product dalam API itu bukan name melainkan tittle maka product.name harus diubah dan juga di cart */}
+                  <CardProduct.Body name={product.title}>
                     {product.description}
                   </CardProduct.Body>
                   {/* 16.05 up6 mengirimkan handler ke footer */}
@@ -162,12 +197,15 @@ const ProductsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => {
+              {/* up33 membuat length yang sama seperti products terhadap cart */}
+              {products.length > 0 &&
+               cart.map((item) => {
                 const product = products.find((product) => product.id === item.id)
                 // 16.05 up10 return table row dengan item.id serta product
                 return (
                   <tr key={item.id}>
-                    <td>{product.name}</td>
+                    {/* up38 ubah name jadi title */}
+                    <td>{product.title.substring(0, 10)}</td>
                     <td>${product.price}</td>
                     <td>{item.qty}</td>
                     <td>${product.price * item.qty}</td>

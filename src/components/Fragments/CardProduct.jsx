@@ -24,7 +24,8 @@ const Header = (props) => {
     return (
         <a href="#">
                 <img 
-                    className="p-8 rounded-t-lg" 
+                // up39 merapihkan tampilan gambar product yang berbeda beda
+                    className="p-8 rounded-t-lg w-full h-60 object-cover" 
                     src={image} 
                     alt="product" />
             </a>
@@ -36,10 +37,11 @@ const Body = (props) => {
         <div className="px-5 pb-5 h-full">
             <a href="">
                 <h5 className="text-xl font-bold tracking-tight text-white">
-                    {name}
+                    {name.substring(0, 20)} ...
                 </h5>
                 <p className="text-justify">
-                    {children}
+                    {/* up40 merapihkan semua text product agar sama panjang pakai substring */}
+                    {children.substring(0, 100)} ...
                 </p>
             </a>
         </div>
