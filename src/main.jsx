@@ -11,6 +11,11 @@ import ProductsPage from "./pages/products.jsx";
 import ProfilePage from "./pages/profile.jsx";
 import DetailProductPage from "./pages/detailProduct.jsx";
 
+// up76 memanggil store redux implementasi redux
+import { Provider } from "react-redux";
+import store from "./redux/store.js";
+import Navbar from "./components/Layouts/Navbar.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,10 +25,16 @@ const router = createBrowserRouter([
       <div className="flex flex-col justify-center min-h-screen items-center bg-slate-200">
         <h1 className="font-bold text-4xl">SELAMAT DATANG GOKILLLL</h1>
         {/* menampilkan button YANG LANGSUNG PINDAH KE login page */}
-        <button onClick={() => router.navigate("/Login")} className="bg-blue-500 p-3 rounded-lg text-white font-bold mt-5">
+        <button
+          onClick={() => router.navigate("/Login")}
+          className="bg-blue-500 p-3 rounded-lg text-white font-bold mt-5"
+        >
           GET STARTED
         </button>
-        <Link to="/login" className=" bg-blue-500 p-3 rounded-lg text-white font-bold mt-5 hover:bg-pink-600 focus:bg-pink-950">
+        <Link
+          to="/login"
+          className=" bg-blue-500 p-3 rounded-lg text-white font-bold mt-5 hover:bg-pink-600 focus:bg-pink-950"
+        >
           Login PAKE LINK
         </Link>
       </div>
@@ -58,6 +69,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    {/* up77 memasukan router provider ke dalam provider imple redux dan memasukan props store*/}
+    <Provider store={store}>
+      <Navbar />
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
