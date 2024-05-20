@@ -15,6 +15,8 @@ import DetailProductPage from "./pages/detailProduct.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import Navbar from "./components/Layouts/Navbar.jsx";
+import DarkModeContextProvider from "./context/DarkMode.jsx";
+import { TotalPriceProvider } from "./context/TotalPriceContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -71,8 +73,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* up77 memasukan router provider ke dalam provider imple redux dan memasukan props store*/}
     <Provider store={store}>
-      <Navbar />
-      <RouterProvider router={router} />
+      {/* up93 memasukan routerprovider ke darkmode context provider */}
+
+      {/* <Navbar /> */}
+      <DarkModeContextProvider>
+        {/* up101 import totalprice provider dan bikin element router
+         */}
+        <TotalPriceProvider>
+          <RouterProvider router={router} />
+        </TotalPriceProvider>
+      </DarkModeContextProvider>
     </Provider>
   </React.StrictMode>
 );

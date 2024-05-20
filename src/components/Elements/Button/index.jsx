@@ -11,7 +11,7 @@ const Button = (props) => {
   } = props;
   return (
     <button
-      className={`h-10 px-6 bg-pink-500 rounded-md ${variant} ${classname}  text-white`}
+      className={`h-10 px-6 bg-cyan-500 rounded-md ${variant} ${classname}  text-white`}
       type={type}
       // 16.05 up7
       onClick={onClick}

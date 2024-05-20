@@ -1,10 +1,11 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useContext } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import { getProducts } from "../services/product.service";
 import { getUsername } from "../services/auth.services";
 import { useLogin } from "../hooks/useLogin";
 import TableCart from "../components/Fragments/TableCart";
 import Navbar from "../components/Layouts/Navbar";
+import { DarkMode } from "../context/DarkMode";
 
 // BELAJAR RENDERING LIST 15/05/2024
 
@@ -45,6 +46,8 @@ import Navbar from "../components/Layouts/Navbar";
 // UP49 installasi npm i jwt-decode UNTUK MENDECODE TOKEN DAN MENGGANTI email jadi token
 
 const ProductsPage = () => {
+  // up97 menambahkan toggle darkmode ke navbar product
+  const { isDarkMode, setIsDarkMode } = useContext(DarkMode);
   // 16.05 up3 useState membuat hook dengan setCart "menangkap pesanan agar masuk ke cart"
   // const [cart, setCart] = useState([
   // {
@@ -112,10 +115,10 @@ const ProductsPage = () => {
     // membuat navbar welcome setelah login 15/05/2024
     <Fragment>
       {/* up89 memanggil navbar */}
-      {/* <Navbar /> */}
-      <div className="flex justify-center py-5">
+      <Navbar />
+      <div className={`flex justify-center ${isDarkMode && "bg-slate-800"} min-h-screen`}>
         {/* 16.05 USESTATE up1 belajar useState dengan menambahkan cart dan membuat card menjadi flex warp 16.05.2024 */}
-        <div className="w-2/3 flex flex-wrap gap-5 justify-center">
+        <div className="w-2/3 flex flex-wrap gap-5 justify-center my-5">
           {/* up32 menghendel product length >0 kita maping kalau datanya ada*/}
           {products.length > 0 &&
             products.map((product) => (
@@ -137,7 +140,7 @@ const ProductsPage = () => {
             ))}
         </div>
         {/* 16.05 membuat cart up2 */}
-        <div className="w-1/3 border bg-slate-400 h-full sticky top-0 rounded-lg shadow-md mr-4">
+        <div className="w-1/3 border bg-slate-400 h-full sticky top-0 rounded-lg shadow-md mr-4 my-5">
           <h1 className="text-3xl font-bold text-red-700 ml-5 mb-2">Cart</h1>
 
           {/* UP86 PEMANGGILAN TABLECART DARI FILE TABLECART dengan props products   */}

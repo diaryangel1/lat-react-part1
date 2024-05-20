@@ -2,12 +2,19 @@
 // up83 melakukan pemindahan table cart dari file products dan memasukan props kedalam tablecart mengomentari semua handletocart atau menghapusnya
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { useTotalPrice, useTotalPriceDispatch } from "../../context/TotalPriceContext";
 
 const TableCart = (props) => {
   const { products } = props;
   //   up84 menggunakan useSelector untuk mengganti state cart, dengan sebuah function yang menerima parameter state serta membuat state total price dan set total price dengan usestate 0
   const cart = useSelector((state) => state.cart.data);
-  const [totalPrice, setTotalPrice] = useState(0);
+
+  // const [totalPrice, setTotalPrice] = useState(0);
+
+  // up102 memanggil const dispatch use totalprice dispatch
+  const dispatch = useTotalPriceDispatch();
+  //UP104 AMBIL TOTALPRICE NYA
+  const { total } = useTotalPrice();
 
   //   up85 PEMINDAHAN BESAR memindahkan use effect yang ada di file products untuk menjumlahkan total DAN TOTALPRICE
 
@@ -22,7 +29,15 @@ const TableCart = (props) => {
         return product ? acc + product.price * item.qty : acc;
       }, 0);
       // 0 mendefinisikan memulai dari index ke berapa
-      setTotalPrice(sum);
+      // setTotalPrice(sum);
+
+      //UP103
+      dispatch({
+        type: "UPDATE",
+        payload: {
+          total: sum,
+        },
+      });
       // up19 bikin semua penyimpanan tersimpan di localstorage 17.05.2024
       localStorage.setItem("cart", JSON.stringify(cart));
     }
@@ -75,7 +90,8 @@ const TableCart = (props) => {
         >
           {/* ref={totalPriceRef} adalah bagian latihan dari up 21 agar bisa memunculkan item total harga saat tombol add cart di klik */}
           <td colSpan={3}>Total Price</td>
-          <td>${totalPrice}</td>
+          {/* up105 ubah jadi total saja */}
+          <td>${total}</td>
         </tr>
       </tbody>
     </table>
